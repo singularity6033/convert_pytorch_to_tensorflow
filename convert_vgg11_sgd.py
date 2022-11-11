@@ -7,20 +7,21 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization
 
-model_save_path = './sgd_tf2_ndn_best/model'
-weights_save_path = './sgd_tf2_ndn_best/weights'
 
-block10_0 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_0_sgd_ndn.pt').cpu().data.numpy().T
-block10_2 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_1_sgd_ndn.pt').cpu().data.numpy().T
-block10_4 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_2_sgd_ndn.pt').cpu().data.numpy().T
-block10_5 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_3_sgd_ndn.pt').cpu().data.numpy().T
-block10_7 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_4_sgd_ndn.pt').cpu().data.numpy().T
-block10_8 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_5_sgd_ndn.pt').cpu().data.numpy().T
-block10_10 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_6_sgd_ndn.pt').cpu().data.numpy().T
-block10_11 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_7_sgd_ndn.pt').cpu().data.numpy().T
-block10_14 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_8_sgd_ndn.pt').cpu().data.numpy().T
-block10_15 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_9_sgd_ndn.pt').cpu().data.numpy().T
-block10_16 = torch.load('./vgg11_cifar10_sgd_ndn_best/vgg11_cifar10_10_sgd_ndn.pt').cpu().data.numpy().T
+model_save_path = './sgd_tf2_best_2/model'
+weights_save_path = './sgd_tf2_best_2/weights'
+
+block10_0 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_0_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_2 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_1_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_4 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_2_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_5 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_3_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_7 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_4_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_8 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_5_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_10 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_6_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_11 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_7_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_14 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_8_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_15 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_9_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
+block10_16 = torch.load('./vgg11_cifar100_sgd_ndn_best_new_normal/vgg11_cifar100_10_sgd_ndn.pt', map_location='cuda:0').cpu().data.numpy().T
 
 # model architecture
 model = Sequential()
@@ -67,12 +68,12 @@ model.add(Dense(512, name='dense_1'))
 model.add(Activation('relu'))
 model.add(Dense(512, name='dense_2'))
 model.add(Activation('relu'))
-model.add(Dense(10, name='dense_3'))
+model.add(Dense(100, name='dense_3'))
 model.add(Activation('softmax'))
 
 model.summary()
 model_json = model.to_json()
-with open(os.path.sep.join([model_save_path, "sgd_vgg11_cifar10_-11.json"]), "w") as json_file:
+with open(os.path.sep.join([model_save_path, "sgd_vgg11_cifar100_-11.json"]), "w") as json_file:
     json_file.write(model_json)
 #
 model.layers[0].set_weights([block10_0, np.zeros(64)])
@@ -85,6 +86,6 @@ model.layers[16].set_weights([block10_10, np.zeros(512)])
 model.layers[18].set_weights([block10_11, np.zeros(512)])
 model.layers[22].set_weights([block10_14, np.zeros(512)])
 model.layers[24].set_weights([block10_15, np.zeros(512)])
-model.layers[26].set_weights([block10_16, np.zeros(10)])
+model.layers[26].set_weights([block10_16, np.zeros(100)])
 #
-model.save(os.path.join(weights_save_path, 'sgd_vgg11_cifar10.h5'))
+model.save(os.path.join(weights_save_path, 'sgd_vgg11_cifar100.h5'))
